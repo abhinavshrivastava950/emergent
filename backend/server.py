@@ -8,7 +8,8 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 import uuid
-from datetime import datetime, timezone, timedelta, date
+from datetime import datetime, timezone, timedelta
+from datetime import date as DateType
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 import json
 
@@ -40,7 +41,7 @@ class JournalEntry(BaseModel):
     mood_score: Optional[int] = None
     mood_emotion: Optional[str] = None
     ai_summary: Optional[str] = None
-    date: date = Field(default_factory=lambda: datetime.now(timezone.utc).date())
+    date: DateType = Field(default_factory=lambda: datetime.now(timezone.utc).date())
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -57,7 +58,7 @@ class WeeklyMoodStats(BaseModel):
 
 # Helper functions for MongoDB serialization
 def prepare_for_mongo(data):
-    if isinstance(data.get('date'), date):
+    if isinstance(data.get('date'), DateType):
         data['date'] = data['date'].isoformat()
     if isinstance(data.get('created_at'), datetime):
         data['created_at'] = data['created_at'].isoformat()
