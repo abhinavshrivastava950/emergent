@@ -172,11 +172,11 @@ frontend:
     file: "App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Created beautiful entry form with title, content, and tag management"
+        comment: "Created beautiful entry form with title, content, and tag management. Ready for frontend testing."
 
   - task: "Mood Visualization Charts"
     implemented: true
@@ -184,11 +184,11 @@ frontend:
     file: "App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Built custom SVG line and bar charts for mood trends display"
+        comment: "Built custom SVG line and bar charts for mood trends display. Ready for frontend testing."
 
   - task: "Entry Management Interface"
     implemented: true
@@ -196,11 +196,11 @@ frontend:
     file: "App.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Created expandable entry cards with mood scores and AI summaries display"
+        comment: "Created expandable entry cards with mood scores and AI summaries display. Ready for frontend testing."
 
 metadata:
   created_by: "main_agent"
