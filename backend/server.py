@@ -79,7 +79,7 @@ def parse_from_mongo(item):
 async def analyze_mood_and_summarize(content: str, title: str):
     """Analyze journal entry for mood and generate summary using Gemini LLM"""
     try:
-        genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
+        genai.configure(api_key=os.environ.get('AIzaSyAna4BTNgNm-QrYCZHK-0AVzoUHNOaF4IA'))
         model = genai.GenerativeModel(
             model_name="gemini-pro",
             system_instruction="""You are a mood analysis expert. Analyze the given journal entry and provide:
