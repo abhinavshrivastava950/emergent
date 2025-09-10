@@ -77,12 +77,12 @@ def parse_from_mongo(item):
 
 # AI Analysis Function
 async def analyze_mood_and_summarize(content: str, title: str):
-    """Analyze journal entry for mood and generate summary using Emergent LLM"""
+    """Analyze journal entry for mood and generate summary using Gemini LLM"""
     try:
-        chat = LlmChat(
-            api_key=os.environ.get('EMERGENT_LLM_KEY'),
-            session_id=f"mood_analysis_{uuid.uuid4()}",
-            system_message="""You are a mood analysis expert. Analyze the given journal entry and provide:
+        genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
+        model = genai.GenerativeModel(
+            model_name="gemini-pro",
+            system_instruction="""You are a mood analysis expert. Analyze the given journal entry and provide:
 1. A mood score from 1-10 (where 1 is very negative/sad, 10 is very positive/happy)
 2. A primary emotion category (happy, sad, anxious, excited, calm, angry, grateful, stressed, content, melancholy)
 3. A brief 2-3 sentence summary of the entry
@@ -92,18 +92,17 @@ Respond in this exact JSON format:
     "mood_score": 7,
     "mood_emotion": "content",
     "summary": "Brief summary here"
-}"""
-        ).with_model("openai", "gpt-4o-mini")
-        
-        user_message = UserMessage(
-            text=f"Title: {title}\n\nContent: {content}\n\nPlease analyze this journal entry for mood and provide a summary."
+}
+"""
         )
-        
-        response = await chat.send_message(user_message)
-        
+
+        user_message = f"Title: {title}\n\nContent: {content}\n\nPlease analyze this journal entry for mood and provide a summary."
+
+        response = await model.generate_content_async(user_message)
+
         # Parse the JSON response
         try:
-            analysis = json.loads(response.strip())
+            analysis = json.loads(response.text.strip())
             return {
                 "mood_score": analysis.get("mood_score", 5),
                 "mood_emotion": analysis.get("mood_emotion", "neutral"),
